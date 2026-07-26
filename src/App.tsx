@@ -231,11 +231,21 @@ function App() {
 						{text.whatsappLabel}
 					</a>
 					<a href={emailUrl} className="btn btn-ghost">
-						<img src={emailIcon} alt="" aria-hidden="true" className="btn-icon" />
+						<img
+							src={emailIcon}
+							alt=""
+							aria-hidden="true"
+							className="btn-icon btn-icon-email"
+						/>
 						{text.emailLabel}
 					</a>
 					<a href={githubUrl} target="_blank" rel="noreferrer" className="btn btn-ghost">
-						<img src={githubIcon} alt="" aria-hidden="true" className="btn-icon" />
+						<img
+							src={githubIcon}
+							alt=""
+							aria-hidden="true"
+							className="btn-icon btn-icon-github"
+						/>
 						{text.githubLabel}
 					</a>
 				</div>
