@@ -3,12 +3,61 @@
 :root {
 	--bg: #f5f9ff;
 	--bg-deep: #e8f2ff;
+	--page-radial-1: rgba(249, 115, 22, 0.1);
+	--page-radial-2: rgba(14, 165, 233, 0.14);
 	--ink: #0f172a;
 	--muted-ink: #334155;
 	--accent: #ea580c;
 	--line: #cfe0f4;
+	--surface: rgba(255, 255, 255, 0.84);
+	--surface-elevated: rgba(255, 255, 255, 0.9);
+	--surface-strong: #ffffff;
+	--surface-soft: #f8fbff;
+	--chip-bg-start: #f8fafc;
+	--chip-bg-end: #eef2ff;
+	--chip-border: #dbeafe;
+	--ghost-bg-start: rgba(239, 246, 255, 0.96);
+	--ghost-bg-end: rgba(219, 234, 254, 0.96);
+	--ghost-bg-hover-start: rgba(219, 234, 254, 1);
+	--ghost-bg-hover-end: rgba(191, 219, 254, 1);
+	--panel-border: #d9e5f3;
+	--card-border: #d7e2f2;
+	--hero-shadow: rgba(15, 23, 42, 0.08);
+	--section-shadow: rgba(37, 99, 235, 0.08);
+	--switch-bg: rgba(255, 255, 255, 0.72);
+	--switch-border: rgba(14, 165, 233, 0.22);
+	--switch-shadow: rgba(255, 255, 255, 0.7);
 	--heading: 'Space Grotesk', 'Trebuchet MS', sans-serif;
 	--body: 'Outfit', 'Segoe UI', sans-serif;
+}
+
+body[data-theme='dark'] {
+	--bg: #0b1220;
+	--bg-deep: #111a2d;
+	--page-radial-1: rgba(251, 146, 60, 0.1);
+	--page-radial-2: rgba(56, 189, 248, 0.12);
+	--ink: #e5eefc;
+	--muted-ink: #b7c4da;
+	--accent: #fb923c;
+	--line: #26344d;
+	--surface: rgba(15, 23, 42, 0.82);
+	--surface-elevated: rgba(17, 24, 39, 0.92);
+	--surface-strong: #132033;
+	--surface-soft: #0f172a;
+	--chip-bg-start: #1a2940;
+	--chip-bg-end: #111c2e;
+	--chip-border: #27405f;
+	--ghost-bg-start: rgba(19, 32, 51, 0.96);
+	--ghost-bg-end: rgba(15, 23, 42, 0.96);
+	--ghost-bg-hover-start: rgba(23, 37, 61, 1);
+	--ghost-bg-hover-end: rgba(31, 46, 72, 1);
+	--panel-border: #27324a;
+	--card-border: #28344d;
+	--hero-shadow: rgba(0, 0, 0, 0.38);
+	--section-shadow: rgba(59, 130, 246, 0.12);
+	--switch-bg: rgba(15, 23, 42, 0.76);
+	--switch-border: rgba(56, 189, 248, 0.18);
+	--switch-shadow: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -30,8 +79,8 @@ body {
 	font-family: var(--body);
 	color: var(--ink);
 	background:
-		radial-gradient(circle at 10% 10%, rgba(249, 115, 22, 0.1), transparent 32%),
-		radial-gradient(circle at 86% 22%, rgba(14, 165, 233, 0.14), transparent 34%),
+		radial-gradient(circle at 10% 10%, var(--page-radial-1), transparent 32%),
+		radial-gradient(circle at 86% 22%, var(--page-radial-2), transparent 34%),
 		linear-gradient(180deg, var(--bg), var(--bg-deep));
 	line-height: 1.5;
 }

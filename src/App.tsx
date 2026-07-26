@@ -1,91 +1,46 @@
+import { useEffect, useState } from 'react';
 import './App.css';
 import whatsappIcon from './assets/whatsapp.png';
 import githubIcon from './assets/github.png';
 import emailIcon from './assets/gmail.png';
+import dayIcon from './assets/dia.png';
+import nightIcon from './assets/noche.png';
+import { copy, type Language } from './content';
+
+type Theme = 'light' | 'dark';
 
 function App() {
+	const [language, setLanguage] = useState<Language>('es');
+	const [theme, setTheme] = useState<Theme>(() => {
+		if (typeof window === 'undefined') {
+			return 'light';
+		}
+
+		return window.localStorage.getItem('portfolio-theme') === 'dark' ? 'dark' : 'light';
+	});
+	const text = copy[language];
 	const whatsappNumber = '584126053226';
 	const emailAddress = 'ivan2herrerra@gmail.com';
 	const githubUrl = 'https://github.com/Ssmonks';
+
+	useEffect(() => {
+		document.body.dataset.theme = theme;
+		window.localStorage.setItem('portfolio-theme', theme);
+	}, [theme]);
+
 	const whatsappMessage = encodeURIComponent(
-		'Hola Ivan, vi tu portafolio y me gustaría contactarte por un proyecto.'
+		language === 'es'
+			? 'Hola Ivan, vi tu portafolio y me gustaría contactarte por un proyecto.'
+			: 'Hi Ivan, I saw your portfolio and I would like to contact you about a project.',
 	);
 	const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 	const emailUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(
-		'Contacto desde tu portafolio'
+		language === 'es' ? 'Contacto desde tu portafolio' : 'Contact from your portfolio',
 	)}&body=${encodeURIComponent(
-		'Hola Ivan, te contacto desde tu portafolio para conversar sobre un proyecto.'
+		language === 'es'
+			? 'Hola Ivan, te contacto desde tu portafolio para conversar sobre un proyecto.'
+			: 'Hi Ivan, I am reaching out from your portfolio to talk about a project.',
 	)}`;
-
-	const skills = {
-		frontend: ['React', 'React Native', 'TypeScript', 'JavaScript', 'Expo'],
-		backend: ['NestJS', 'PHP', 'Node.js', 'REST APIs', 'Arquitectura Cliente-Servidor'],
-		databases: ['PostgreSQL', 'MySQL', 'SQL Server'],
-		tools: ['GitHub', 'Solidity', 'Metamask integration', 'MS Office Suite'],
-	};
-
-	const experience = [
-		{
-			role: 'Desarrollador Principal de Aplicaciones',
-			company: 'Freelancer',
-			period: 'Feb 2022 - Actualidad',
-			highlights: [
-				'Construccion fullstack de aplicaciones: logica de negocio, backend, bases de datos y despliegue por ambientes.',
-				'Desarrollo de contratos inteligentes en BNB y Ethereum, con portales web para interaccion via Metamask.',
-				'Construccion de aplicaciones moviles con React Native y colaboracion en proyectos en curso.',
-			],
-		},
-		{
-			role: 'Soporte de Aplicaciones',
-			company: 'Soluciones HGI - Citibank',
-			period: 'May 2021 - Ene 2022',
-			highlights: [
-				'Monitoreo y soporte de aplicaciones en produccion con enfoque en continuidad operativa.',
-				'Gestion de requerimientos entre equipos nacionales e internacionales.',
-				'Generacion de datos para reportes de auditoria y atencion de solicitudes sobre BD/servidor.',
-			],
-		},
-		{
-			role: 'Desarrollador Junior',
-			company: 'Soluciones HGI - Citibank',
-			period: 'Feb 2019 - May 2021',
-			highlights: [
-				'Construccion y mantenimiento de aplicaciones cliente-servidor en C#.',
-				'Automatizacion y mejoras con macros en Visual Basic para procesos internos.',
-			],
-		},
-	];
-
-	const projects = [
-		{
-			title: 'Data Extractor - Levva',
-			url: 'https://levva.es/es/data-extractor',
-			type: 'Web Platform',
-			description:
-				'Participacion como programador fullstack: construccion de frontend y backend para una solucion enfocada en extraccion y procesamiento de datos.',
-		},
-		{
-			title: 'Ekipio - Levva',
-			url: 'https://ekipio.es/es',
-			type: 'Web Platform',
-			description:
-				'Participacion fullstack en el desarrollo del producto, cubriendo implementacion del frontend y la logica de servidor.',
-		},
-		{
-			title: 'FillerRescue (Android)',
-			url: 'https://play.google.com/store/apps/details?id=com.fillerrescue&pcampaignid=web_share',
-			type: 'Mobile App',
-			description:
-				'Responsable de la logica interna y del frontend de la aplicacion movil, asegurando una experiencia funcional y estable.',
-		},
-		{
-			title: 'FillerRescue (iOS)',
-			url: 'https://apps.apple.com/es/app/fillerrescue/id6751650399',
-			type: 'Mobile App',
-			description:
-				'Implementacion de logica y frontend de la app en iOS para mantener consistencia funcional entre plataformas.',
-		},
-	];
 
 	return (
 		<div className="portfolio-page">
@@ -93,46 +48,88 @@ function App() {
 			<div className="ambient-shape ambient-shape-b" aria-hidden="true" />
 
 			<header className="hero">
-				<p className="eyebrow">PORTAFOLIO PERSONAL</p>
+				<div className="hero-topbar">
+					<p className="eyebrow">{text.pageLabel}</p>
+					<div className="header-controls">
+						<div className="language-switch" aria-label={text.languageLabel}>
+							<button
+								type="button"
+								className={
+									language === 'es'
+										? 'language-button is-active'
+										: 'language-button'
+								}
+								onClick={() => setLanguage('es')}
+								aria-pressed={language === 'es'}
+							>
+								{text.esLanguage}
+							</button>
+							<button
+								type="button"
+								className={
+									language === 'en'
+										? 'language-button is-active'
+										: 'language-button'
+								}
+								onClick={() => setLanguage('en')}
+								aria-pressed={language === 'en'}
+							>
+								{text.enLanguage}
+							</button>
+						</div>
+						<button
+							type="button"
+							className={theme === 'dark' ? 'theme-button is-dark' : 'theme-button'}
+							onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+							aria-pressed={theme === 'dark'}
+							aria-label={
+								theme === 'dark'
+									? language === 'es'
+										? 'Activar modo claro'
+										: 'Enable light mode'
+									: language === 'es'
+										? 'Activar modo nocturno'
+										: 'Enable dark mode'
+							}
+						>
+							<img
+								src={theme === 'dark' ? nightIcon : dayIcon}
+								alt=""
+								aria-hidden="true"
+								className={theme === 'dark' ? 'theme-button-icon is-night' : 'theme-button-icon is-day'}
+							/>
+						</button>
+					</div>
+				</div>
 				<h1>
-					Ivan Herrera
-					<span>Fullstack Developer</span>
+					{text.title}
+					<span>{text.subtitle}</span>
 				</h1>
-				<p className="hero-copy">
-					Desarrollo soluciones completas de software con enfoque en rendimiento,
-					escalabilidad y calidad tecnica. Mi fortaleza principal es resolver
-					problemas complejos de negocio con implementaciones claras y mantenibles.
-				</p>
+				<p className="hero-copy">{text.heroCopy}</p>
 				<div className="hero-cta">
 					<a href="#contacto" className="btn btn-primary">
-						Solicitar contacto
+						{text.primaryCta}
 					</a>
 					<a href="#proyectos" className="btn btn-ghost">
-						Ver proyectos
+						{text.secondaryCta}
 					</a>
 				</div>
 				<ul className="hero-meta">
-					<li>Caracas, Venezuela</li>
+					<li>{text.location}</li>
 				</ul>
 			</header>
 
 			<main>
 				<section className="panel">
-					<h2>Perfil Profesional</h2>
-					<p>
-						Programador fullstack con experiencia en aplicaciones web y moviles,
-						participando en todas las capas del producto: arquitectura, backend,
-						frontend, base de datos, despliegue y soporte. He trabajado en contextos
-						de banca, productos digitales y proyectos freelance para clientes
-						internacionales.
-					</p>
+					<h2>{text.profileTitle}</h2>
+					<p>{text.profileCopy}</p>
 				</section>
 
 				<section className="panel stack-grid">
 					<div>
-						<h2>Frontend</h2>
+						<h2>{text.skills.frontend}</h2>
 						<div className="chip-group">
-							{skills.frontend.map((item) => (
+							{text.skills.frontendItems.map((item) => (
 								<span key={item} className="chip">
 									{item}
 								</span>
@@ -140,9 +137,9 @@ function App() {
 						</div>
 					</div>
 					<div>
-						<h2>Backend</h2>
+						<h2>{text.skills.backend}</h2>
 						<div className="chip-group">
-							{skills.backend.map((item) => (
+							{text.skills.backendItems.map((item) => (
 								<span key={item} className="chip">
 									{item}
 								</span>
@@ -150,9 +147,9 @@ function App() {
 						</div>
 					</div>
 					<div>
-						<h2>Bases de Datos</h2>
+						<h2>{text.skills.databases}</h2>
 						<div className="chip-group">
-							{skills.databases.map((item) => (
+							{text.skills.databaseItems.map((item) => (
 								<span key={item} className="chip">
 									{item}
 								</span>
@@ -160,9 +157,9 @@ function App() {
 						</div>
 					</div>
 					<div>
-						<h2>Herramientas</h2>
+						<h2>{text.skills.tools}</h2>
 						<div className="chip-group">
-							{skills.tools.map((item) => (
+							{text.skills.toolItems.map((item) => (
 								<span key={item} className="chip">
 									{item}
 								</span>
@@ -172,9 +169,9 @@ function App() {
 				</section>
 
 				<section className="panel">
-					<h2>Experiencia</h2>
+					<h2>{text.experienceTitle}</h2>
 					<div className="timeline">
-						{experience.map((job) => (
+						{text.experience.map((job) => (
 							<article key={job.role + job.period} className="timeline-item">
 								<div className="timeline-head">
 									<h3>{job.role}</h3>
@@ -193,9 +190,9 @@ function App() {
 				</section>
 
 				<section id="proyectos" className="panel">
-					<h2>Proyectos Destacados</h2>
+					<h2>{text.projectsTitle}</h2>
 					<div className="project-grid">
-						{projects.map((project) => (
+						{text.projects.map((project) => (
 							<article key={project.title} className="project-card">
 								<p className="project-type">{project.type}</p>
 								<h3>{project.title}</h3>
@@ -206,7 +203,7 @@ function App() {
 									rel="noreferrer"
 									className="btn btn-ghost project-link"
 								>
-									Ver proyecto
+									{language === 'es' ? 'Ver proyecto' : 'View project'}
 								</a>
 							</article>
 						))}
@@ -216,11 +213,8 @@ function App() {
 
 			<footer className="panel contact">
 				<div id="contacto" />
-				<h2>Contacto</h2>
-				<p>
-					Si buscas un desarrollador fullstack con enfoque en resultados, resolucion
-					de problemas y ownership de punta a punta, conversemos.
-				</p>
+				<h2>{text.contactTitle}</h2>
+				<p>{text.contactCopy}</p>
 				<div className="contact-actions">
 					<a
 						href={whatsappUrl}
@@ -234,25 +228,22 @@ function App() {
 							aria-hidden="true"
 							className="btn-icon btn-icon-whatsapp"
 						/>
-						Contactar por WhatsApp
+						{text.whatsappLabel}
 					</a>
 					<a href={emailUrl} className="btn btn-ghost">
 						<img src={emailIcon} alt="" aria-hidden="true" className="btn-icon" />
-						Enviar correo
+						{text.emailLabel}
 					</a>
 					<a href={githubUrl} target="_blank" rel="noreferrer" className="btn btn-ghost">
 						<img src={githubIcon} alt="" aria-hidden="true" className="btn-icon" />
-						Ver GitHub
+						{text.githubLabel}
 					</a>
 				</div>
 			</footer>
 
 			<section className="panel credits">
-				<h2>Créditos</h2>
-				<p>
-					Los íconos usados en los botones de contacto fueron tomados de Flaticon y
-					pertenecen a sus respectivos autores.
-				</p>
+				<h2>{text.creditsTitle}</h2>
+				<p>{text.creditsCopy}</p>
 				<ul className="credits-list">
 					<li>
 						<a
@@ -279,6 +270,15 @@ function App() {
 							rel="noreferrer"
 						>
 							Correo electrónico iconos creados por pictogramer - Flaticon
+						</a>
+					</li>
+					<li>
+						<a
+							href="https://www.flaticon.es/iconos-gratis/modo-oscuro"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Modo-oscuro iconos creados por Muhammad_Usman - Flaticon
 						</a>
 					</li>
 				</ul>
